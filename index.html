@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Вишлист Майи</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:ital,wght@0,500;0,700;0,800;1,500&display=swap">
+<style>img{max-width:100%}</style>
+<style>
+/* Layout: a pink stage — curtains at the top, striped pastel backdrop, scalloped cream cards for gifts, "my gifts" ribbon pinned below the header. Single committed look (party invitation), no dark theme. */
+:root{
+  --pink:#f06aa6;        /* curtain, accent */
+  --pink-deep:#d9458a;   /* pressed / headings */
+  --pink-soft:#fbd0e3;   /* chips, borders */
+  --cream:#fff7f4;       /* cards */
+  --ink:#5a2e45;         /* text */
+  --ink-soft:#9a6a82;    /* captions */
+  --gold:#d9a84a;        /* stars */
+  --mint:#bfe8d6;        /* "taken" state */
+  --bg:#fffbea;
+  --display:"Pacifico","Comic Sans MS",cursive;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:var(--body);color:var(--ink);background:var(--bg);
+  background-image:
+    repeating-linear-gradient(90deg,
+      #fff6c9 0 18px,#ffe3ef 18px 30px,#e3f2ff 30px 40px,#fff6c9 40px 52px,#e6f7e9 52px 62px,#ffe9d6 62px 72px,#f3e6ff 72px 84px);
+  min-height:100%;
+}
+.wrap{max-width:980px;margin:0 auto;padding-block:0 56px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* ---- curtain header ---- */
+.stage{position:relative;padding-top:18px;text-align:center}
+.curtain{position:absolute;top:-10px;width:34%;height:230px;z-index:0;pointer-events:none;
+  background:
+    repeating-linear-gradient(90deg,#f27fb3 0 14px,#ea5f9c 14px 22px,#f7a2c8 22px 34px);
+  box-shadow:inset 0 -30px 40px rgba(217,69,138,.25);
+  -webkit-mask:radial-gradient(28px 28px at 28px 100%,transparent 27px,#000 28px) 0 0/56px 100% repeat-x;
+  mask:radial-gradient(28px 28px at 28px 100%,transparent 27px,#000 28px) 0 0/56px 100% repeat-x}
+.curtain.l{left:-6%;transform:skewX(4deg)}
+.curtain.r{right:-6%;transform:skewX(-4deg)}
+.valance{position:absolute;left:0;right:0;top:-4px;height:34px;z-index:1;
+  background:repeating-linear-gradient(90deg,#f27fb3 0 14px,#ea5f9c 14px 22px,#f7a2c8 22px 34px);
+  -webkit-mask:radial-gradient(18px 18px at 18px 100%,transparent 17px,#000 18px) 0 0/36px 100% repeat-x;
+  mask:radial-gradient(18px 18px at 18px 100%,transparent 17px,#000 18px) 0 0/36px 100% repeat-x}
+.bunting{position:relative;z-index:2;display:flex;justify-content:center;gap:6px;margin:40px auto 0;width:min(520px,90%)}
+.bunting i{display:block;width:20px;height:26px;clip-path:polygon(0 0,100% 0,50% 100%)}
+.bunting i:nth-child(6n+1){background:#f06aa6}.bunting i:nth-child(6n+2){background:#ffd166}.bunting i:nth-child(6n+3){background:#8ed6b2}
+.bunting i:nth-child(6n+4){background:#8cc3ff}.bunting i:nth-child(6n+5){background:#c9a4ff}.bunting i:nth-child(6n){background:#ffb3a7}
+.disco{position:relative;z-index:2;width:74px;height:74px;margin:14px auto 0;border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 30%,#fff 0 6%,transparent 7%),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.55) 0 2px,transparent 2px 9px),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.55) 0 2px,transparent 2px 9px),
+    radial-gradient(circle at 35% 35%,#ffb3d6,#e24b93 70%,#b9336f);
+  box-shadow:0 8px 20px rgba(217,69,138,.3)}
+.disco::before{content:"";position:absolute;left:50%;top:-24px;width:2px;height:24px;background:var(--pink-deep)}
+.star{position:absolute;z-index:3;font-size:28px;line-height:1;pointer-events:none;filter:drop-shadow(0 2px 2px rgba(0,0,0,.08))}
+.hero{position:relative;z-index:2;margin-top:18px}
+.eyebrow{font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:var(--pink-deep)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(40px,8vw,64px);line-height:1.1;margin:6px 0 10px;color:var(--pink-deep);text-wrap:balance;
+  text-shadow:0 3px 0 #fff}
+.lead{max-width:56ch;margin:0 auto;font-size:17px;line-height:1.5;color:var(--ink)}
+.lead b{color:var(--pink-deep)}
+.meta{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;margin-top:14px;font-weight:700;font-size:15px;color:var(--ink-soft)}
+.meta span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--pink);margin-right:8px;vertical-align:middle}
+
+/* ---- my gifts ribbon ---- */
+.mine{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;margin:26px auto 0;max-width:720px;
+  background:var(--cream);border:3px dashed var(--pink);border-radius:22px;padding:12px 18px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 10px 30px rgba(217,69,138,.14)}
+.mine[hidden]{display:none}
+.mine .t{font-weight:800;color:var(--pink-deep)}
+.mine ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.mine li{background:var(--pink-soft);border-radius:999px;padding:4px 12px;font-size:14px;font-weight:700;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ---- gift grid ---- */
+.counter{text-align:center;margin:26px 0 14px;font-weight:700;color:var(--ink-soft);font-size:15px}
+.counter b{color:var(--pink-deep)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+.card{position:relative;background:var(--cream);border-radius:26px;padding:12px 14px 16px;display:flex;flex-direction:column;gap:10px;min-width:0;
+  box-shadow:0 1px 0 #fff inset,0 10px 24px rgba(217,69,138,.12);outline:3px solid #fff;outline-offset:-6px;transition:transform .18s}
+@media (hover:hover){.card:not(.taken):hover{transform:translateY(-3px)}}
+.card.taken{opacity:.7}
+.card.mine-card{outline-color:var(--pink);background:#fff0f6}
+.pic{position:relative;aspect-ratio:1;max-width:100%;border-radius:18px;overflow:hidden;background:#fff}
+.pic img{width:100%;height:100%;object-fit:contain;display:block}
+.pic .fb{position:absolute;inset:0;display:none;place-items:center;font-size:56px;background:linear-gradient(135deg,#ffe3ef,#fff6c9)}
+.pic.nopic .fb{display:grid}
+.pic.nopic img{display:none}
+.chip{position:absolute;left:10px;top:10px;background:var(--pink-soft);color:var(--pink-deep);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:999px}
+.name{font-weight:800;font-size:16px;line-height:1.3;margin:0}
+.sub{font-size:13px;color:var(--ink-soft);margin:-4px 0 0;line-height:1.35}
+.price{font-weight:700;font-size:14px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.row{display:flex;gap:8px;align-items:center;margin-top:auto;flex-wrap:wrap}
+.btn{appearance:none;border:0;cursor:pointer;font:inherit;font-weight:800;font-size:15px;border-radius:999px;padding:11px 16px;flex:1 1 auto;min-width:0;
+  background:var(--pink);color:#fff;box-shadow:0 4px 0 var(--pink-deep);transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--pink-deep)}
+.btn:focus-visible,.link:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.btn.ghost{background:#fff;color:var(--pink-deep);box-shadow:0 4px 0 var(--pink-soft)}
+.btn.ghost:active{box-shadow:0 1px 0 var(--pink-soft)}
+.btn:disabled{cursor:default;background:var(--mint);color:#2f6b52;box-shadow:none;transform:none}
+.link{display:inline-flex;align-items:center;gap:4px;font-weight:700;font-size:14px;color:var(--pink-deep);text-decoration:none;white-space:nowrap;padding:8px 10px;border-radius:999px;background:#fff}
+.link:hover{text-decoration:underline}
+.btn{text-align:center;text-decoration:none;display:inline-block}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}.tags span{background:var(--pink-soft);color:var(--pink-deep);font-weight:800;font-size:13px;padding:5px 11px;border-radius:999px}
+
+/* ---- footer note ---- */
+.note{margin:34px auto 0;max-width:620px;text-align:center;background:var(--cream);border-radius:22px;padding:18px 20px;line-height:1.5;font-size:15px}
+.note h2{font-family:var(--display);font-weight:400;font-size:26px;margin:0 0 6px;color:var(--pink-deep)}
+.cake{font-size:40px;line-height:1;margin-bottom:4px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);opacity:0;background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;pointer-events:none;transition:.25s;z-index:50;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%)}
+@media (max-width:560px){.curtain{height:170px}.disco{width:60px;height:60px}.grid{grid-template-columns:repeat(2,1fr);gap:12px}.card{padding:10px 10px 14px;border-radius:20px}.name{font-size:14px}.btn{font-size:14px;padding:10px 12px}.link{font-size:13px}}
+@media (max-width:380px){.grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.card,.btn,.toast{transition:none}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="stage">
+    <div class="valance"></div>
+    <div class="curtain l"></div>
+    <div class="curtain r"></div>
+    <span class="star" style="left:8%;top:150px;color:#e3b3ff">★</span>
+    <span class="star" style="left:4%;top:230px;color:#d9a84a">★</span>
+    <span class="star" style="right:7%;top:140px;color:#f06aa6">★</span>
+    <span class="star" style="right:3%;top:235px;color:#8cc3ff">★</span>
+    <div class="bunting"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="disco"></div>
+    <div class="hero">
+      <div class="eyebrow">Розовая вечеринка</div>
+      <h1>Вишлист Майи</h1>
+      <p class="lead">Майе нравится всё розовое, танцевать и собирать пазлы. Она маленькая гедонистка и эстетка — настоящая маленькая леди с очень тонким вкусом. Поэтому лучше <b>небольшой подарок, но эстетичный и с душой</b>. Ниже — идеи, которые точно порадуют.</p>
+      <div class="meta"><span>31 октября</span><span>10:00</span><span>Детская комната «Тутто Фрутто», Родионова, 17</span></div>
+    </div>
+  </header>
+
+  <p class="counter" id="counter">Идеи с Ozon — <b>в один клик</b></p>
+  <div class="grid" id="grid"></div>
+
+  <p class="counter">А ещё Майя будет рада <b>красивой одежде, обуви и идеям для дома</b></p>
+  <div class="grid ideas" id="ideas"></div>
+
+  <section class="note">
+    <div class="cake">🎂</div>
+    <h2>Спасибо!</h2>
+    <p>Цены ориентировочные, на Ozon они чуть плавают. Ждём вас 31 октября — будет розово, вкусно и очень весело.</p>
+  </section>
+</div>
+
+<script>
+const GIFTS = [
+  {id:"g01",cat:"Книга",name:"«Осень гусёнка»",sub:"Элли Вуллард, иллюстрации Брайони Мэй Смит",price:1300,url:"https://ozon.ru/t/6l8T7mq",img:"https://ir-20.ozone.ru/s3/multimedia-1-j/c600/7106885551.jpg",emoji:"📚"},
+  {id:"g02",cat:"Книга",name:"«Нелл и цирк мечты»",sub:"Иллюстрации Брайони Мэй Смит",price:1300,url:"https://ozon.ru/t/Axj6biK",img:"https://ir-20.ozone.ru/s3/multimedia-1-o/c600/7181238228.jpg",emoji:"📚"},
+  {id:"g03",cat:"Книга",name:"«Весна медвежонка»",sub:"Элли Вуллард, иллюстрации Брайони Мэй Смит",price:1300,url:"https://ozon.ru/t/hiyDA6C",img:"https://ir-20.ozone.ru/s3/multimedia-1-t/c600/7106885885.jpg",emoji:"📚"},
+  {id:"g04",cat:"Книга",name:"«Курица спешит домой!»",sub:"Иллюстрации Брайони Мэй Смит",price:1400,url:"https://ozon.ru/t/3QUHv4X",img:"https://ir-20.ozone.ru/s3/multimedia-1-v/c600/7085676379.jpg",emoji:"📚"},
+  {id:"g05",cat:"Игрушка",name:"Кукольный театр",sub:"Ширма для домашних спектаклей",price:5200,url:"https://ozon.ru/t/EIPCZoU",img:"https://ir-20.ozone.ru/s3/multimedia-1-e/c600/14514992654.jpg",emoji:"🎭"},
+  {id:"g06",cat:"Игрушка",name:"Магнитный лабиринт Bee Board",sub:"Happy Baby, деревянный сортер",price:1750,url:"https://ozon.ru/t/dwqzS87",img:"https://ir-20.ozone.ru/s3/multimedia-1-e/c600/11305741226.jpg",emoji:"🐝"},
+  {id:"g07",cat:"Игрушка",name:"Касса со сканером",sub:"Happy Baby Happy Seller, игра в магазин",price:3500,url:"https://ozon.ru/t/v0RKywB",img:"https://ir-20.ozone.ru/s3/multimedia-1-t/c600/11102473577.jpg",emoji:"🛒"},
+  {id:"g08",cat:"Игрушка",name:"Микрофон-караоке Fluffy Mic",sub:"Happy Baby, беспроводной, оливковый",price:2700,url:"https://ozon.ru/t/NsrKmuK",img:"https://ir-20.ozone.ru/s3/multimedia-1-c/c600/11045767476.jpg",emoji:"🎤"},
+  {id:"g09",cat:"Одежда",name:"Джинсы Happy Baby",sub:"Синие прямые, рост 92–98",price:2600,url:"https://ozon.ru/t/IYdRlQ9",img:"https://ir-20.ozone.ru/s3/multimedia-1-c/c600/13532960496.jpg",emoji:"👖"},
+  {id:"g10",cat:"Игрушка",name:"Город кубиков Junion",sub:"Деревянный набор с ковриком, 127 деталей",price:3800,url:"https://ozon.ru/t/yebZr9b",img:"https://ir-20.ozone.ru/s3/multimedia-1-k/c600/10270702568.jpg",emoji:"🧱"},
+  {id:"g11",cat:"Игрушка",name:"Кроватка для кукол «Манюня»",sub:"Мега Тойс, деревянная, с пеленальным столиком",price:3400,url:"https://ozon.ru/t/n62WUnA",img:"https://ir-20.ozone.ru/s3/multimedia-1-k/c600/7414891076.jpg",emoji:"🛏️"},
+  {id:"g12",cat:"Игрушка",name:"Деревянная кухня",sub:"Игровая, 53 см",price:4000,url:"https://ozon.ru/t/mUB3fsI",img:"https://ir-20.ozone.ru/s3/multimedia-1-b/c600/7377212171.jpg",emoji:"🍳"},
+  {id:"g13",cat:"Игрушка",name:"Детский граммофон",sub:"С аудиосказками и Bluetooth, с дисками",price:5300,url:"https://ozon.ru/t/6lzBgHQ",img:"https://ir-20.ozone.ru/s3/multimedia-1-9/c600/10067482017.jpg",emoji:"🎶"},
+  {id:"g14",cat:"Развитие",name:"Школа Семи Гномов 3+",sub:"Годовой курс: 21 книга, активити с наклейками, мастерская для творчества",price:5400,url:"https://ozon.ru/t/MnV2IcG",img:"https://ir-20.ozone.ru/s3/multimedia-1-o/c600/8315821428.jpg",emoji:"📖"},
+  {id:"g15",cat:"Для дома",name:"Рамка для детских рисунков",sub:"Вмещает 150 работ, формат 21×30, белая",price:500,url:"https://ozon.ru/t/yegmBDK",img:"https://ir-20.ozone.ru/s3/multimedia-1-8/c600/7182397160.jpg",emoji:"🖼️"},
+  {id:"g16",cat:"Для дома",name:"Детская полка с рулоном бумаги",sub:"ELKA lab, настенная, 52×12 см, розовая",price:2500,url:"https://ozon.ru/t/tPa8F68",img:"https://ir-20.ozone.ru/s3/multimedia-1-j/c600/13885442659.jpg",emoji:"🎨"}
+];
+
+const IDEAS = [
+  {cat:"Одежда",name:"Одежда 92 размера",sub:"Платья, юбки, кардиганы, уютные костюмы — розовое и пастель особенно любимы",tags:["Crockid","Mayoral","Happy Baby"],emoji:"👗"},
+  {cat:"Обувь",name:"Обувь 24–25 размера",sub:"Туфельки, кроссовки, ботиночки на осень — удобные и красивые",tags:["24","25"],emoji:"🥿"},
+  {cat:"Хобби",name:"Пазлы",sub:"Майя обожает собирать — яркие картинки, крупные детали",tags:["12–40 деталей"],emoji:"🧩"},
+  {cat:"Спорт",name:"Всё для плавания",sub:"Купальник, шапочка, очки, нарукавники — Майя ходит в бассейн",tags:["92 размер"],emoji:"🏊"},
+  {cat:"Творчество",name:"Наборы для творчества",sub:"Для дома: краски, пластилин, аппликации, наклейки",tags:["3+"],emoji:"✏️"},
+  {cat:"Хобби",name:"Всё для танцев",sub:"Юбочка-пачка, бант, музыкальная игрушка — чтобы танцевать было ещё веселее",tags:["розовое"],emoji:"🩰"}
+];
+
+const grid=document.getElementById("grid"), ideas=document.getElementById("ideas");
+const fmt=n=>"≈ "+n.toLocaleString("ru-RU")+" ₽";
+
+for(const g of GIFTS){
+  const card=document.createElement("article");
+  card.className="card";
+  card.innerHTML=`
+    <div class="pic"><span class="chip">${g.cat}</span><img alt="" loading="lazy" src="${g.img}"><div class="fb">${g.emoji}</div></div>
+    <h3 class="name">${g.name}</h3>
+    <p class="sub">${g.sub}</p>
+    <div class="price">${fmt(g.price)}</div>
+    <div class="row"><a class="btn" href="${g.url}" target="_blank" rel="noopener">Смотреть на Ozon ↗</a></div>`;
+  card.querySelector("img").onerror=()=>card.querySelector(".pic").classList.add("nopic");
+  grid.appendChild(card);
+}
+for(const g of IDEAS){
+  const card=document.createElement("article");
+  card.className="card";
+  card.innerHTML=`
+    <div class="pic nopic"><span class="chip">${g.cat}</span><div class="fb">${g.emoji}</div></div>
+    <h3 class="name">${g.name}</h3>
+    <p class="sub">${g.sub}</p>
+    <div class="tags">${g.tags.map(t=>`<span>${t}</span>`).join("")}</div>`;
+  ideas.appendChild(card);
+}
+</script>
+
+</body>
+</html>
